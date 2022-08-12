@@ -148,36 +148,18 @@ public class ApiController {
 		testLogMaster.setTestDetails(testDetails);
 		testLogMaster.setStartTimeStamp(startTime);
 		testLogMaster.setEndTimeStamp(endTime);
+				
 		
-		int noOfStrings = responses.size();
-		
-		testLogMaster.setTestResult(String.valueOf(noOfStrings));
-		
-		int countOfOffStrings = 0;
-		boolean passFlag = false;
+		int countOfStrings = 0;
 		for(int value: responses) {
-			if(value == 0) {
-				countOfOffStrings++;
+			if(value == testType) {
+				countOfStrings++;
 			}
 		}
 		
-		
-		int halfTheNoOfStrings = noOfStrings/2;
-		double noOfOffStringsLowerBound = halfTheNoOfStrings - (0.1)*halfTheNoOfStrings;
-		double noOfOffStringsUpperBound = halfTheNoOfStrings + (0.1)*halfTheNoOfStrings;
+		testLogMaster.setTestResult(String.valueOf(countOfStrings));
 
-		if(testType == 1) {
-			if(countOfOffStrings <= halfTheNoOfStrings && countOfOffStrings >= noOfOffStringsLowerBound) {
-				passFlag = true;
-			}
-		}
-		else {
-			if(countOfOffStrings >= halfTheNoOfStrings && countOfOffStrings <= noOfOffStringsUpperBound) {
-				passFlag = true;
-			}
-		}
-		
-		if(passFlag == true && noOfStrings >= 170 && noOfStrings <= 190) {
+		if(countOfStrings >= 170 && countOfStrings <= 190) {
 			testLogMaster.setPass(1);
 		}
 		else {
@@ -270,36 +252,16 @@ public class ApiController {
 		List<Integer> responses = rawDataRepo.getDigitalInputResults(reportMaster.getImei(), startTime, endTime);
 		int noOfStrings = responses.size();
 		
-		testLogMaster.setTestResult(String.valueOf(noOfStrings));
 		
-		int countOfOffStrings = 0;
-		int countOfOnStrings = 0;
-		boolean passFlag = false;
+		int countOfStrings = 0;
 		for(int i = 0; i < noOfStrings; i++) {
 			int di = responses.get(i);
-			if(di == 0) {
-				countOfOffStrings++;
-			}
-			else {
-				countOfOnStrings++;
+			if(di == testType) {
+				countOfStrings++;
 			}
 		}
-		
-		
-		int halfTheNoOfStrings = noOfStrings/2;
-		double noOfStringsUpperBound = halfTheNoOfStrings + (0.2)*halfTheNoOfStrings;
-		
-		if(testType == 1) {
-			if(countOfOnStrings >= halfTheNoOfStrings && countOfOnStrings <= noOfStringsUpperBound) {
-				passFlag = true;
-			}
-		}
-		else {
-			if(countOfOffStrings >= halfTheNoOfStrings && countOfOffStrings <= noOfStringsUpperBound) {
-				passFlag = true;
-			}
-		}
-		if(countOfOffStrings >= 12 && countOfOffStrings <= 18 && countOfOnStrings >= 12 && countOfOnStrings <= 17 && passFlag == true) {
+		testLogMaster.setTestResult(String.valueOf(countOfStrings));
+		if((countOfStrings >= 12 && countOfStrings <= 17 && testType == 1) || (countOfStrings >= 12 && countOfStrings <= 18 && testType == 0)) {
 			testLogMaster.setPass(1);
 		}
 		else {
