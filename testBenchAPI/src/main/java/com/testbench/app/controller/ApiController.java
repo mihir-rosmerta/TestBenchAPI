@@ -287,7 +287,7 @@ public class ApiController {
 		
 		
 		int halfTheNoOfStrings = noOfStrings/2;
-		double noOfStringsUpperBound = halfTheNoOfStrings + (0.1)*halfTheNoOfStrings;
+		double noOfStringsUpperBound = halfTheNoOfStrings + (0.2)*halfTheNoOfStrings;
 		
 		if(testType == 1) {
 			if(countOfOnStrings >= halfTheNoOfStrings && countOfOnStrings <= noOfStringsUpperBound) {
